@@ -1,52 +1,45 @@
-import app from "./firebase";
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
+// App.js
+import React, { useState } from "react";
+import { View, TextInput, Button, Text } from "react-native";
+import app from "./firebase"; // 👈 our Firebase connection
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+
+const auth = getAuth(app);
 
 export default function App() {
-  const [theme, setTheme] = useState('hindu'); // default theme
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
 
-  const styles = theme === 'hindu' ? hinduStyles : darkPurpleStyles;
+  const signUp = () => {
+    createUserWithEmailAndPassword(auth, email, password)
+      .then(userCredential => {
+        setMessage(`Signed up: ${userCredential.user.email}`);
+      })
+      .catch(error => {
+        setMessage(error.message);
+      });
+  };
+
+  const login = () => {
+    signInWithEmailAndPassword(auth, email, password)
+      .then(userCredential => {
+        setMessage(`Logged in: ${userCredential.user.email}`);
+      })
+      .catch(error => {
+        setMessage(error.message);
+      });
+  };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Shree RAM</Text>
-      <Button
-        title={`Switch to ${theme === 'hindu' ? 'Dark Purple' : 'Hindu'} Theme`}
-        onPress={() => setTheme(theme === 'hindu' ? 'dark' : 'hindu')}
-        color={theme === 'hindu' ? '#ff9933' : '#800080'}
-      />
-      <StatusBar style="auto" />
+    <View style={{ padding: 20 }}>
+      <Text>Email:</Text>
+      <TextInput style={{ borderWidth: 1, marginBottom: 10 }} value={email} onChangeText={setEmail} />
+      <Text>Password:</Text>
+      <TextInput style={{ borderWidth: 1, marginBottom: 10 }} secureTextEntry value={password} onChangeText={setPassword} />
+      <Button title="Sign Up" onPress={signUp} />
+      <Button title="Login" onPress={login} />
+      <Text style={{ marginTop: 10 }}>{message}</Text>
     </View>
   );
-}
-
-const hinduStyles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff8dc', // light saffron
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#ff9933', // saffron orange
-    marginBottom: 20,
-  },
-});
-
-const darkPurpleStyles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#1a001a', // dark purple
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#cc99ff', // neon purple
-    marginBottom: 20,
-  },
-});
+    }
