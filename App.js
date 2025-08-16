@@ -1,5 +1,5 @@
-// App.js
 import { auth } from "./firebase";
+// App.js
 import React, { useState } from "react";
 import { View, TextInput, Button, Text } from "react-native";
 import app from "./firebase"; // 👈 our Firebase connection
