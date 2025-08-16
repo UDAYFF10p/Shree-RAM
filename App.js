@@ -1,11 +1,8 @@
-import { auth } from "./firebase";
 // App.js
 import React, { useState } from "react";
 import { View, TextInput, Button, Text } from "react-native";
-import app from "./firebase"; // 👈 our Firebase connection
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-
-const auth = getAuth(app);
+import { auth } from "./firebase";  
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 
 export default function App() {
   const [email, setEmail] = useState("");
@@ -35,12 +32,21 @@ export default function App() {
   return (
     <View style={{ padding: 20 }}>
       <Text>Email:</Text>
-      <TextInput style={{ borderWidth: 1, marginBottom: 10 }} value={email} onChangeText={setEmail} />
+      <TextInput
+        style={{ borderWidth: 1, marginBottom: 10, width: "100%", padding: 8 }}
+        value={email}
+        onChangeText={setEmail}
+      />
       <Text>Password:</Text>
-      <TextInput style={{ borderWidth: 1, marginBottom: 10 }} secureTextEntry value={password} onChangeText={setPassword} />
+      <TextInput
+        style={{ borderWidth: 1, marginBottom: 10, width: "100%", padding: 8 }}
+        secureTextEntry
+        value={password}
+        onChangeText={setPassword}
+      />
       <Button title="Sign Up" onPress={signUp} />
       <Button title="Login" onPress={login} />
       <Text style={{ marginTop: 10 }}>{message}</Text>
     </View>
   );
-    }
+}
