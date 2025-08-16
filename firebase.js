@@ -1,6 +1,9 @@
+// firebase.js
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
+// Your Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyBe1-wz4--Ey_UETXe_WFB8XWhPBNybt_0",
   authDomain: "shree-ram-bc751.firebaseapp.com",
@@ -11,7 +14,9 @@ const firebaseConfig = {
   measurementId: "G-G1WT7XKCSF"
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
 
-export default app;
+// Export Firebase services
+export const auth = getAuth(app);
+export const db = getFirestore(app);
